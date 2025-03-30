@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://aiwebsite.pro/" />
+    <title>5分钟搭建网站｜零基础建站工具</title>
+    <meta name="description" content="使用AI辅助，帮助零基础用户在5分钟内搭建专业网站。无需编程知识，轻松创建属于你的网站。">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'apple-dark': '#121212',
+                        'apple-darker': '#0a0a0a',
+                        'apple-light': '#1e1e1e',
+                        'apple-blue': '#0071e3',
+                        'apple-light-blue': '#2997ff',
+                        'apple-green': '#34c759',
+                        'apple-orange': '#ff9500',
+                        'apple-red': '#ff3b30',
+                        'apple-gray': '#2c2c2e',
+                        'apple-light-gray': '#3a3a3c',
+                        'apple-text': '#f5f5f7',
+                        'apple-text-secondary': '#a1a1a6'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            background-color: #121212;
+            color: #f5f5f7;
+        }
+        
+        .card {
+            transition: all 0.2s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card-content > :last-child {
+            margin-top: auto;
+        }
+        
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .active-category {
+            background-color: rgba(0, 113, 227, 0.2);
+            border-left: 3px solid #0071e3;
+            color: #0071e3;
+            font-weight: 500;
+        }
+        
+        .lang-selector.active {
+            color: #0071e3;
+            font-weight: 500;
+        }
+        
+        .screenshot-placeholder {
+            width: 100%;
+            height: 180px !important; /* Increased height to match the design */
+            min-height: 180px;
+            max-height: 180px;
+            border-radius: 0.75rem 0.75rem 0 0;
+            overflow: hidden;
+            background-color: #1e1e1e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .sidebar {
+            width: 280px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        
+        .main-content {
+            margin-left: 280px;
+            width: calc(100% - 280px);
+        }
+        
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 240px;
+            }
+            .main-content {
+                margin-left: 240px;
+                width: calc(100% - 240px);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+        
+        .card-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 0.75rem 0.75rem 0 0;
+            background-color: #1e1e1e;
+        }
+        
+        /* 添加封面图占位符样式 */
+        .card-placeholder {
+            width: 100%;
+            height: 192px !important;
+            min-height: 192px;
+            max-height: 192px;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.5), rgba(147, 51, 234, 0.5));
+            border-radius: 0.75rem 0.75rem 0 0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .card-placeholder.blue {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.5), rgba(37, 99, 235, 0.5));
+        }
+        
+        .card-placeholder.purple {
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.5), rgba(126, 34, 206, 0.5));
+        }
+        
+        .card-placeholder.green {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.5), rgba(5, 150, 105, 0.5));
+        }
+        
+        /* 统一适用人群模块样式 */
+        .target-audience {
+            margin-left: 0;
+            width: 100%;
+        }
+
+        .target-audience-inner {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        /* 添加卡片整体可点击的样式 */
+        .tool-card {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        .tool-card a {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            color: inherit;
+        }
+    </style>
+</head>
+<body class="bg-apple-dark text-apple-text">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar bg-apple-darker border-r border-apple-gray">
+        <div class="p-4 border-b border-apple-gray">
+            <h1 class="text-xl font-bold text-apple-blue">CreateWeb</h1>
+            <p class="text-xs text-apple-text-secondary mt-1" data-en="Create your website in 5 minutes" data-zh="5分钟搭建你的网站">Create your website in 5 minutes</p>
+        </div>
+        
+        <div class="p-4 border-b border-apple-gray flex space-x-2">
+            <button class="lang-selector active" data-lang="en" onclick="switchLanguage('en')">EN</button>
+            <button class="lang-selector" data-lang="zh" onclick="switchLanguage('zh')">中文</button>
+        </div>
+        
+        <div class="p-4">
+            <div class="relative">
+                <input type="text" id="searchInput" data-en="Search tools..." data-zh="搜索工具..." placeholder="Search tools..." class="w-full pl-10 pr-4 py-2 bg-apple-light border border-apple-gray rounded-lg focus:outline-none focus:ring-2 focus:ring-apple-blue focus:border-transparent text-apple-text">
+                <div class="absolute left-3 top-2.5 text-apple-text-secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+        
+        <nav class="overflow-y-auto h-[calc(100%-180px)]">
+            <div class="space-y-1">
+                <!-- Stage 1: Development Tools -->
+                <div class="px-4 py-2">
+                    <h3 class="text-sm font-semibold text-apple-text-secondary uppercase tracking-wider" data-en="Stage 1: Development Tools" data-zh="阶段一：开发工具">Stage 1: Development Tools</h3>
+                </div>
+                <ul>
+                    <li>
+                        <a href="#" data-category="no-code" class="active-category block px-4 py-2 text-sm hover:bg-apple-light flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                            </svg>
+                            <span data-en="No-Code Programming" data-zh="0代码编程">No-Code Programming</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" data-category="local-env" class="block px-4 py-2 text-sm hover:bg-apple-light flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                            </svg>
+                            <span data-en="Local Environment Setup" data-zh="本地环境配置">Local Environment Setup</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" data-category="component-lib" class="block px-4 py-2 text-sm hover:bg-apple-light flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+                            </svg>
+                            <span data-en="Component Libraries" data-zh="组件库">Component Libraries</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" data-category="templates" class="block px-4 py-2 text-sm hover:bg-apple-light flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+                            </svg>
+                            <span data-en="Templates" data-zh="模板">Templates</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" data-category="design-resources" class="block px-4 py-2 text-sm hover:bg-apple-light flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span data-en="Design & Resources" data-zh="设计与资源平台">Design & Resources</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <!-- Stage 2: Launch & Maintenance -->
+                <div class="px-4 py-2 mt-4">
+                    <h3 class="text-sm font-semibold text-apple-text-secondary uppercase tracking-wider" data-en="Stage 2: Launch & Maintenance" data-zh="阶段二：上线与维护">Stage 2: Launch & Maintenance</h3>
+                </div>
+                <ul>
+                    <li>
+                        <a href="#" data-category="upload-code" class="block px-4 py-2 text-sm hover:bg-apple-light flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                            </svg>
+                            <span data-en="Upload Code" data-zh="上传代码">Upload Code</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" data-category="domain-registration" class="block px-4 py-2 text-sm hover:bg-apple-light flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span data-en="Domain Registration" data-zh="域名注册购买">Domain Registration</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" data-category="hosting" class="block px-4 py-2 text-sm hover:bg-apple-light flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
+                            </svg>
+                            <span data-en="Website Hosting" data-zh="网站托管">Website Hosting</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <!-- Practical Steps & Learning Resources -->
+                <div class="px-4 py-2 mt-4">
+                    <h3 class="text-sm font-semibold text-apple-text-secondary uppercase tracking-wider" data-en="Practical Steps & Learning" data-zh="实战步骤与学习资源">Practical Steps & Learning</h3>
+                </div>
+                <ul>
+                    <li>
+                        <a href="#" data-category="tutorials" class="block px-4 py-2 text-sm hover:bg-apple-light flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                            </svg>
+                            <span data-en="Website Tutorials" data-zh="建站教程">Website Tutorials</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" data-category="analytics" class="block px-4 py-2 text-sm hover:bg-apple-light flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                            </svg>
+                            <span data-en="Data Analytics" data-zh="数据分析">Data Analytics</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <!-- Advanced -->
+                <div class="px-4 py-2 mt-4">
+                    <h3 class="text-sm font-semibold text-apple-text-secondary uppercase tracking-wider" data-en="Advanced" data-zh="进阶">Advanced</h3>
+                </div>
+                <ul>
+                    <li>
+                        <a href="#" data-category="discovery" class="block px-4 py-2 text-sm hover:bg-apple-light flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                            <span data-en="Opportunity Discovery" data-zh="发现需求">Opportunity Discovery</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" data-category="seo" class="block px-4 py-2 text-sm hover:bg-apple-light flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                            </svg>
+                            <span data-en="SEO Optimization" data-zh="SEO优化">SEO Optimization</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="main-content min-h-screen">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-apple-text mb-2" data-en="Create Your Website in 5 Minutes" data-zh="5分钟搭建你的网站">Create Your Website in 5 Minutes</h1>
+                <p class="text-apple-text-secondary" data-en="Discover the best no-code tools and resources to build your website quickly without any programming knowledge." data-zh="发现最佳的无代码工具和资源，无需编程知识即可快速搭建网站。">Discover the best no-code tools and resources to build your website quickly without any programming knowledge.</p>
+            </div>
+            
+            <!-- No-Code Programming Tools (Default Category) -->
+            <div id="no-code" class="category-section">
+                <h2 class="text-2xl font-semibold mb-6 text-apple-text" data-en="No-Code Programming Tools" data-zh="无代码开发工具">No-Code Programming Tools</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Blot.new -->
+                    <div class="tool-card card bg-apple-light rounded-xl overflow-hidden shadow-md">
+                        <a href="https://blot.new" target="_blank" class="block">
+                            <div class="card-placeholder purple">
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <img src="https://www.google.com/s2/favicons?sz=64&domain=blot.new" 
+                                         alt="blot.new icon" 
+                                         class="w-16 h-16 rounded-lg shadow-lg bg-white/10 backdrop-blur-sm p-2"
+                                         onerror="this.style.display='none'"
+                                         loading="lazy">
+                                </div>
+                            </div>
+                            <div class="p-5 card-content">
+                                <h3 class="text-lg font-semibold mb-2">blot.new</h3>
+                                <p class="text-apple-text-secondary text-sm mb-3" data-en="AI helps write code and automatically deploys so you can view website content immediately, but you can't revert to previous code versions." data-zh="AI帮助编写代码并自动部署，让你立即查看网站内容，但无法回退到之前的代码版本。">AI helps write code and automatically deploys so you can view website content immediately, but you can't revert to previous code versions.</p>
+                                <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-blue-500/5 to-purple-500/5 border-l-4 border-blue-500 rounded-r-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    <span class="text-sm font-medium text-blue-500" data-en="For complete beginners who want to create a website by just entering text" data-zh="适合只想通过输入文本来创建网站的完全初学者">For complete beginners who want to create a website by just entering text</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <!-- Trickle -->
+                    <div class="tool-card card bg-apple-light rounded-xl overflow-hidden shadow-md">
+                        <a href="https://trickle.so" target="_blank" class="block">
+                            <div class="card-placeholder purple">
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <img src="https://www.google.com/s2/favicons?sz=64&domain=trickle.so" 
+                                         alt="Trickle icon" 
+                                         class="w-16 h-16 rounded-lg shadow-lg bg-white/10 backdrop-blur-sm p-2"
+                                         onerror="this.style.display='none'"
+                                         loading="lazy">
+                                </div>
+                            </div>
+                            <div class="p-5 card-content">
+                                <h3 class="text-lg font-semibold mb-2">Trickle</h3>
+                                <p class="text-apple-text-secondary text-sm mb-3" data-en="AI helps write code and automatically deploys so you can view website content immediately, but you can't revert to previous code versions; includes some website templates." data-zh="AI帮助编写代码并自动部署，让你立即查看网站内容，但无法回退到之前的代码版本；包含一些网站模板。">AI helps write code and automatically deploys so you can view website content immediately, but you can't revert to previous code versions; includes some website templates.</p>
+                                <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-blue-500/5 to-purple-500/5 border-l-4 border-blue-500 rounded-r-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    <span class="text-sm font-medium text-blue-500" data-en="For complete beginners who want to create a website by just entering text" data-zh="适合只想通过输入文本来创建网站的完全初学者">For complete beginners who want to create a website by just entering text</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <!-- WindSurf -->
+                    <div class="tool-card card bg-apple-light rounded-xl overflow-hidden shadow-md">
+                        <a href="https://codeium.com/windsurf" target="_blank" class="block">
+                            <div class="card-placeholder green">
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <img src="https://www.google.com/s2/favicons?sz=64&domain=codeium.com" 
+                                         alt="Windsurf icon" 
+                                         class="w-16 h-16 rounded-lg shadow-lg bg-white/10 backdrop-blur-sm p-2"
+                                         onerror="this.style.display='none'"
+                                         loading="lazy">
+                                </div>
+                            </div>
+                            <div class="p-5 card-content">
+                                <h3 class="text-lg font-semibold mb-2">Windsurf</h3>
+                                <p class="text-apple-text-secondary text-sm mb-3" data-en="Automatically runs, debugs, creates folders, and writes code, such as automatically generating browser extensions and small tools." data-zh="自动运行、调试、创建文件夹和编写代码，例如自动生成浏览器扩展和小工具。">Automatically runs, debugs, creates folders, and writes code, such as automatically generating browser extensions and small tools.</p>
+                                <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-blue-500/5 to-purple-500/5 border-l-4 border-blue-500 rounded-r-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    <span class="text-sm font-medium text-blue-500" data-en="For beginners who like to experiment with new technologies or teams wanting to create small tools at low cost" data-zh="适合喜欢尝试新技术的初学者或想要低成本创建小工具的团队">For beginners who like to experiment with new technologies or teams wanting to create small tools at low cost</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <!-- Cursor -->
+                    <div class="tool-card card bg-apple-light rounded-xl overflow-hidden shadow-md">
+                        <a href="https://cursor.sh" target="_blank" class="block">
+                            <div class="card-placeholder blue">
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <img src="https://www.google.com/s2/favicons?sz=64&domain=cursor.sh" 
+                                         alt="Cursor icon" 
+                                         class="w-16 h-16 rounded-lg shadow-lg bg-white/10 backdrop-blur-sm p-2"
+                                         onerror="this.style.display='none'"
+                                         loading="lazy">
+                                </div>
+                            </div>
+                            <div class="p-5 card-content">
+                                <h3 class="text-lg font-semibold mb-2">Cursor</h3>
+                                <p class="text-apple-text-secondary text-sm mb-3" data-en="You can choose different models like Claude and ChatGPT. AI helps you write code, modify code, and can automatically complete code, improving efficiency." data-zh="你可以选择不同的模型来生成代码，包括Claude和ChatGPT。AI帮助你编写代码、修改代码，还可以自动完成代码，提高效率。">You can choose different models like Claude and ChatGPT. AI helps you write code, modify code, and can automatically complete code, improving efficiency.</p>
+                                <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-blue-500/5 to-purple-500/5 border-l-4 border-blue-500 rounded-r-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    <span class="text-sm font-medium text-blue-500" data-en="For beginners who want to quickly learn programming, editors, students or developers" data-zh="适合想要快速上手编程的初学者、编程新手、学生或开发者">For beginners who want to quickly learn programming, editors, students or developers</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <!-- Claude -->
+                    <div class="tool-card card bg-apple-light rounded-xl overflow-hidden shadow-md">
+                        <a href="https://claude.ai" target="_blank" class="block">
+                            <div class="card-placeholder purple">
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <img src="https://www.google.com/s2/favicons?sz=64&domain=claude.ai" 
+                                         alt="Claude icon" 
+                                         class="w-16 h-16 rounded-lg shadow-lg bg-white/10 backdrop-blur-sm p-2"
+                                         onerror="this.style.display='none'"
+                                         loading="lazy">
+                                </div>
+                            </div>
+                            <div class="p-5 card-content">
+                                <h3 class="text-lg font-semibold mb-2">Claude</h3>
+                                <p class="text-apple-text-secondary text-sm mb-3" data-en="Free and Chinese-friendly, powered by the world's most powerful Copilot model, supports file analysis, structured data generation, and multi-turn conversation memory." data-zh="免费且中文友好，全球最强Copilot模型，支持文件分析、结构化数据生成和多轮对话记忆">Free and Chinese-friendly, powered by the world's most powerful Copilot model, supports file analysis, structured data generation, and multi-turn conversation memory.</p>
+                                <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-blue-500/5 to-purple-500/5 border-l-4 border-blue-500 rounded-r-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    <span class="text-sm font-medium text-blue-500" data-en="For beginners who want to quickly learn programming, editors, students or developers" data-zh="适合想要快速上手编程的初学者、编程新手、学生或开发者">For beginners who want to quickly learn programming, editors, students or developers</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <!-- ChatGPT -->
+                    <div class="tool-card card bg-apple-light rounded-xl overflow-hidden shadow-md">
+                        <a href="https://chat.openai.com" target="_blank" class="block">
+                            <div class="card-placeholder green">
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <img src="https://www.google.com/s2/favicons?sz=64&domain=chat.openai.com" 
+                                         alt="ChatGPT icon" 
+                                         class="w-16 h-16 rounded-lg shadow-lg bg-white/10 backdrop-blur-sm p-2"
+                                         onerror="this.style.display='none'"
+                                         loading="lazy">
+                                </div>
+                            </div>
+                            <div class="p-5 card-content">
+                                <h3 class="text-lg font-semibold mb-2">ChatGPT</h3>
+                                <p class="text-apple-text-secondary text-sm mb-3" data-en="The most powerful model after Claude 3.5" data-zh="在Claude 3.5之后的最强模型">The most powerful model after Claude 3.5</p>
+                                <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-blue-500/5 to-purple-500/5 border-l-4 border-blue-500 rounded-r-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    <span class="text-sm font-medium text-blue-500" data-en="For beginners who want to quickly learn programming, editors, students or developers" data-zh="适合想要快速上手编程的初学者、编程新手、学生或开发者">For beginners who want to quickly learn programming, editors, students or developers</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Local Environment Setup (Hidden by default) -->
+            <div id="local-env" class="category-section hidden">
+                <h2 class="text-2xl font-semibold mb-6 text-apple-text" data-en="Local Environment Setup" data-zh="本地环境配置">Local Environment Setup</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- GitHub -->
+                    <div class="tool-card card bg-apple-light rounded-xl overflow-hidden shadow-md">
+                        <a href="https://github.com" target="_blank" class="block">
+                            <div class="card-placeholder purple">
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <img src="https://www.google.com/s2/favicons?sz=64&domain=github.com" 
+                                         alt="GitHub icon" 
+                                         class="w-16 h-16 rounded-lg shadow-lg bg-white/10 backdrop-blur-sm p-2"
+                                         onerror="this.style.display='none'"
+                                         loading="lazy">
+                                </div>
+                            </div>
+                            <div class="p-5 card-content">
+                                <h3 class="text-lg font-semibold mb-2">GitHub</h3>
+                                <p class="text-apple-text-secondary text-sm mb-3" data-en="A cloud storage for code that keeps collaborative coding organized and manageable." data-zh="代码的云盘，多人合作写代码不会乱">代码的云盘，多人合作写代码不会乱</p>
+                                <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-blue-500/5 to-purple-500/5 border-l-4 border-blue-500 rounded-r-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    <span class="text-sm font-medium text-blue-500" data-en="For beginners who have started programming and need to store code or collaborate with others" data-zh="已经开始学编程，需要存代码或和别人合作的新手">已经开始学编程，需要存代码或和别人合作的新手</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <!-- Node.js -->
+                    <div class="tool-card card bg-apple-light rounded-xl overflow-hidden shadow-md">
+                        <a href="https://nodejs.org" target="_blank" class="block">
+                            <div class="card-placeholder green">
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <img src="https://www.google.com/s2/favicons?sz=64&domain=nodejs.org" 
+                                         alt="Node.js icon" 
+                                         class="w-16 h-16 rounded-lg shadow-lg bg-white/10 backdrop-blur-sm p-2"
+                                         onerror="this.style.display='none'"
+                                         loading="lazy">
+                                </div>
+                            </div>
+                            <div class="p-5 card-content">
+                                <h3 class="text-lg font-semibold mb-2">Node.js</h3>
+                                <p class="text-apple-text-secondary text-sm mb-3" data-en="A JavaScript runtime built on Chrome's V8 JavaScript engine." data-zh="一个基于Chrome V8引擎的JavaScript运行时。">A JavaScript runtime built on Chrome's V8 JavaScript engine.</p>
+                                <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-blue-500/5 to-purple-500/5 border-l-4 border-blue-500 rounded-r-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    <span class="text-sm font-medium text-blue-500" data-en="For developers who want to build server-side and networking applications" data-zh="适合想要构建服务器端和网络应用的开发者">For developers who want to build server-side and networking applications</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Component Libraries (Hidden by default) -->
+            <div id="component-lib" class="category-section hidden">
+                <h2 class="text-2xl font-semibold mb-6 text-apple-text">Component Libraries</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Coze -->
+                    <div class="tool-card card bg-apple-light rounded-xl overflow-hidden shadow-md">
+                        <a href="https://www.coze.com" target="_blank" class="block">
+                            <div class="card-placeholder purple">
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <img src="https://www.google.com/s2/favicons?sz=64&domain=coze.com" 
+                                         alt="Coze icon" 
+                                         class="w-16 h-16 rounded-lg shadow-lg bg-white/10 backdrop-blur-sm p-2"
+                                         onerror="this.style.display='none'"
+                                         loading="lazy">
+                                </div>
+                            </div>
+                            <div class="p-5 card-content">
+                                <h3 class="text-lg font-semibold mb-2">Coze</h3>
+                                <p class="text-apple-text-secondary text-sm mb-3" data-en="Free component library." data-zh="免费的组件库。">Free component library.</p>
+                                <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-blue-500/5 to-purple-500/5 border-l-4 border-blue-500 rounded-r-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    <span class="text-sm font-medium text-blue-500" data-en="For developers who want to quickly integrate AI components into their websites and apps" data-zh="适合想要快速简便地将AI组件代码集成到自己网站和应用中的开发者">For developers who want to quickly integrate AI components into their websites and apps</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <!-- Hugging Face -->
+                    <div class="tool-card card bg-apple-light rounded-xl overflow-hidden shadow-md">
+                        <a href="https://huggingface.co" target="_blank" class="block">
+                            <div class="card-placeholder green">
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <img src="https://www.google.com/s2/favicons?sz=64&domain=huggingface.co" 
+                                         alt="Hugging Face icon" 
+                                         class="w-16 h-16 rounded-lg shadow-lg bg-white/10 backdrop-blur-sm p-2"
+                                         onerror="this.style.display='none'"
+                                         loading="lazy">
+                                </div>
+                            </div>
+                            <div class="p-5 card-content">
+                                <h3 class="text-lg font-semibold mb-2">Hugging Face</h3>
+                                <p class="text-apple-text-secondary text-sm mb-3" data-en="A free AI model marketplace with various pre-trained models that you can easily use." data-zh="一个免费的AI模型超市，里面有各种现成的智能工具，你可以随意使用。">A free AI model marketplace with various pre-trained models that you can easily use.</p>
+                                <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-blue-500/5 to-purple-500/5 border-l-4 border-blue-500 rounded-r-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    <span class="text-sm font-medium text-blue-500" data-en="For those who want to try new AI features but don't want to dive deep into technical details" data-zh="适合那些想要体验最新AI功能但不深入了解技术的人">For those who want to try new AI features but don't want to dive deep into technical details</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Templates (Hidden by default) -->
+            <div id="templates" class="category-section hidden">
+                <h2 class="text-2xl font-semibold mb-6 text-apple-text" data-en="Templates" data-zh="模板">Templates</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Vercel Templates -->
+                    <div class="tool-card card bg-apple-light rounded-xl overflow-hidden shadow-md">
+                        <a href="https://vercel.com/templates" target="_blank" class="block">
+                            <div class="card-placeholder blue">
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <img src="https://www.google.com/s2/favicons?sz=64&domain=vercel.com" 
+                                         alt="Vercel Templates icon" 
+                                         class="w-16 h-16 rounded-lg shadow-lg bg-white/10 backdrop-blur-sm p-2"
+                                         onerror="this.style.display='none'"
+                                         loading="lazy">
+                                </div>
+                            </div>
+                            <div class="p-5 card-content">
+                                <h3 class="text-lg font-semibold mb-2">Vercel Templates</h3>
+                                <p class="text-apple-text-secondary text-sm mb-3" data-en="Directly use ready-made templates to quickly build a website, just a few clicks to publish." data-zh="直接使用现成的模板快速搭建网站，只需几次点击即可发布。">Directly use ready-made templates to quickly build a website, just a few clicks to publish.</p>
+                                <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-blue-500/5 to-purple-500/5 border-l-4 border-blue-500 rounded-r-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    <span class="text-sm font-medium text-blue-500" data-en="For beginners who want to quickly create a personal blog or portfolio website" data-zh="适合想要快速创建个人博客或作品集网站的初学者">For beginners who want to quickly create a personal blog or portfolio website</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Design & Resources (Hidden by default) -->
+            <div id="design-resources" class="category-section hidden">
+                <h2 class="text-2xl font-semibold mb-6 text-apple-text" data-en="Design & Resources" data-zh="设计与资源平台">Design & Resources</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Unsplash -->
+                    <div class="tool-card card bg-apple-light rounded-xl overflow-hidden shadow-md">
+                        <a href="https://unsplash.com" target="_blank" class="block">
+                            <div class="card-placeholder blue">
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <img src="https://www.google.com/s2/favicons?sz=64&domain=unsplash.com" 
+                                         alt="Unsplash icon" 
+                                         class="w-16 h-16 rounded-lg shadow-lg bg-white/10 backdrop-blur-sm p-2"
+                                         onerror="this.style.display='none'"
+                                         loading="lazy">
+                                </div>
+                            </div>
+                            <div class="p-5 card-content">
+                                <h3 class="text-lg font-semibold mb-2">Unsplash</h3>
+                                <p class="text-apple-text-secondary text-sm mb-3" data-en="A massive collection of free high-resolution images safe for commercial use." data-zh="一个巨大的免费高分辨率图片集合，可以用于商业用途。">A massive collection of free high-resolution images safe for commercial use.</p>
+                                <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-blue-500/5 to-purple-500/5 border-l-4 border-blue-500 rounded-r-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    <span class="text-sm font-medium text-blue-500" data-en="For beginners needing images for websites or poster designs" data-zh="适合需要网站或海报设计图片的初学者">For beginners needing images for websites or poster designs</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Canva -->
+                    <div class="tool-card card bg-apple-light rounded-xl overflow-hidden shadow-md">
+                        <a href="https://www.canva.com" target="_blank" class="block">
+                            <div class="card-placeholder purple">
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <img src="https://www.google.com/s2/favicons?sz=64&domain=canva.com" 
+                                         alt="Canva icon" 
+                                         class="w-16 h-16 rounded-lg shadow-lg bg-white/10 backdrop-blur-sm p-2"
+                                         onerror="this.style.display='none'"
+                                         loading="lazy">
+                                </div>
+                            </div>
+                            <div class="p-5 card-content">
+                                <h3 class="text-lg font-semibold mb-2">Canva</h3>
+                                <p class="text-apple-text-secondary text-sm mb-3" data-en="An online design tool with numerous templates for creating professional posters quickly." data-zh="一个在线设计工具，有大量模板可以快速创建专业海报。">An online design tool with numerous templates for creating professional posters quickly.</p>
+                                <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-blue-500/5 to-purple-500/5 border-l-4 border-blue-500 rounded-r-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    <span class="text-sm font-medium text-blue-500" data-en="For those who don't know Photoshop but need to create promotional materials quickly" data-zh="适合不会用Photoshop但需要快速制作宣传材料的人">For those who don't know Photoshop but need to create promotional materials quickly</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Wix Tutorials -->
+                    <div class="tool-card card bg-apple-light rounded-xl overflow-hidden shadow-md">
+                        <a href="https://www.wix.com/learn" target="_blank" class="block">
+                            <div class="card-placeholder purple">
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <img src="https://www.google.com/s2/favicons?sz=64&domain=wix.com" 
+                                         alt="Wix icon" 
+                                         class="w-16 h-16 rounded-lg shadow-lg bg-white/10 backdrop-blur-sm p-2"
+                                         onerror="this.style.display='none'"
+                                         loading="lazy">
+                                </div>
+                            </div>
+                            <div class="p-5 card-content">
+                                <h3 class="text-lg font-semibold mb-2">Wix Tutorials</h3>
+                                <p class="text-apple-text-secondary text-sm mb-3" data-en="Step-by-step tutorials on how to create a website using Wix." data-zh="使用Wix创建网站的分步教程。">使用Wix创建网站的分步教程。</p>
+                                <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-blue-500/5 to-purple-500/5 border-l-4 border-blue-500 rounded-r-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    <span class="text-sm font-medium text-blue-500" data-en="For beginners who want to learn how to use Wix to build a website" data-zh="适合想要学习如何使用Wix构建网站的初学者">适合想要学习如何使用Wix构建网站的初学者</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Reddit No-Code Community -->
+                    <div class="tool-card card bg-apple-light rounded-xl overflow-hidden shadow-md">
+                        <a href="https://www.reddit.com/r/nocode/" target="_blank" class="block">
+                            <div class="card-placeholder green">
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <img src="https://www.google.com/s2/favicons?sz=64&domain=reddit.com" 
+                                         alt="Reddit icon" 
+                                         class="w-16 h-16 rounded-lg shadow-lg bg-white/10 backdrop-blur-sm p-2"
+                                         onerror="this.style.display='none'"
+                                         loading="lazy">
+                                </div>
+                            </div>
+                            <div class="p-5 card-content">
+                                <h3 class="text-lg font-semibold mb-2">Reddit No-Code Community</h3>
+                                <p class="text-apple-text-secondary text-sm mb-3" data-en="A community where you can ask questions and share experiences about no-code website building." data-zh="一个可以询问问题和分享无代码网站构建经验的社区。">一个可以询问问题和分享无代码网站构建经验的社区。</p>
+                                <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-blue-500/5 to-purple-500/5 border-l-4 border-blue-500 rounded-r-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    <span class="text-sm font-medium text-blue-500" data-en="For those who want to learn from others' experiences and get help" data-zh="适合想要从他人经验中学习并获得帮助的人">适合想要从他人经验中学习并获得帮助的人</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Upload Code (Hidden by default) -->
+            <div id="upload-code" class="category-section hidden">
+                <h2 class="text-2xl font-semibold mb-6 text-apple-text">Upload Code</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Github -->
+                    <div class="tool-card card bg-apple-light rounded-xl overflow-hidden shadow-md" data-website="https://github.com">
+                        <div class="screenshot-placeholder h-48 flex items-center justify-center">
+                            <div class="card-placeholder purple w-full h-full">
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <img src="https://www.google.com/s2/favicons?sz=64&domain=github.com" 
+                                         alt="Github icon" 
+                                         class="w-16 h-16 rounded-lg shadow-lg bg-white/10 backdrop-blur-sm p-2"
+                                         onerror="this.style.display='none'"
+                                         loading="lazy">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-5 card-content">
+                            <h3 class="text-lg font-semibold mb-2">Github</h3>
+                            <p class="text-apple-text-secondary text-sm mb-3" data-en="A cloud storage for code that keeps collaborative coding organized and manageable." data-zh="代码的云盘，多人合作写代码不会乱">A cloud storage for code that keeps collaborative coding organized and manageable.</p>
+                            <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-blue-500/5 to-purple-500/5 border-l-4 border-blue-500 rounded-r-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                </svg>
+                                <span class="text-sm font-medium text-blue-500" data-en="For beginners who have started programming and need to store code or collaborate with others" data-zh="已经开始学编程，需要存代码或和别人合作的新手">For beginners who have started programming and need to store code or collaborate with others</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Domain Registration (Hidden by default) -->
+            <div id="domain-registration" class="category-section hidden">
+                <h2 class="text-2xl font-semibold mb-6 text-apple-text">Domain Registration</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Spaceship -->
+                    <div class="tool-card card bg-apple-light rounded-xl overflow-hidden shadow-md">
+                        <a href="https://spaceship.com" target="_blank" class="block">
+                            <div class="screenshot-placeholder h-48 flex items-center justify-center">
+                                <div class="card-placeholder green">
+                                    <div class="w-full h-full flex items-center justify-center">
+                                        <img src="https://www.google.com/s2/favicons?sz=64&domain=spaceship.com" 
+                                             alt="Spaceship icon" 
+                                             class="w-16 h-16 rounded-lg shadow-lg bg-white/10 backdrop-blur-sm p-2"
+                                             onerror="this.style.display='none'"
+                                             loading="lazy">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-5 card-content">
+                                <h3 class="text-lg font-semibold mb-2">Spaceship</h3>
+                                <p class="text-apple-text-secondary text-sm mb-3" data-en="A domain purchasing platform that supports multiple payment methods." data-zh="购买域名平台，支持多支付方式">A domain purchasing platform that supports multiple payment methods.</p>
+                                <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-blue-500/5 to-purple-500/5 border-l-4 border-blue-500 rounded-r-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    <span class="text-sm font-medium text-blue-500" data-en="For individuals or businesses who want to deploy their websites online" data-zh="适合部署网站上线的个人或企业">For individuals or businesses who want to deploy their websites online</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <!-- Aliyun -->
+                    <div class="tool-card card bg-apple-light rounded-xl overflow-hidden shadow-md">
+                        <a href="https://aliyun.com" target="_blank" class="block">
+                            <div class="screenshot-placeholder h-48 flex items-center justify-center">
+                                <div class="card-placeholder blue">
+                                    <div class="w-full h-full flex items-center justify-center">
+                                        <img src="https://www.google.com/s2/favicons?sz=64&domain=aliyun.com" 
+                                             alt="Aliyun icon" 
+                                             class="w-16 h-16 rounded-lg shadow-lg bg-white/10 backdrop-blur-sm p-2"
+                                             onerror="this.style.display='none'"
+                                             loading="lazy">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-5 card-content">
+                                <h3 class="text-lg font-semibold mb-2">Aliyun</h3>
+                                <p class="text-apple-text-secondary text-sm mb-3" data-en="Domestic domain registration + filing service, with Chinese-speaking customer service." data-zh="国内域名注册+备案服务，客服使用中文。">Domestic domain registration + filing service, with Chinese-speaking customer service.</p>
+                                <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-blue-500/5 to-purple-500/5 border-l-4 border-blue-500 rounded-r-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    <span class="text-sm font-medium text-blue-500" data-en="For businesses or individuals whose websites are mainly for domestic users" data-zh="适合网站主要面向国内用户的企业或个人">For businesses or individuals whose websites are mainly for domestic users</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <!-- Namecheap -->
+                    <div class="tool-card card bg-apple-light rounded-xl overflow-hidden shadow-md">
+                        <a href="https://www.namecheap.com" target="_blank" class="block">
+                            <div class="screenshot-placeholder h-48 flex items-center justify-center">
+                                <div class="card-placeholder purple">
+                                    <div class="w-full h-full flex items-center justify-center">
+                                        <img src="https://www.google.com/s2/favicons?sz=64&domain=namecheap.com" 
+                                             alt="Namecheap icon" 
+                                             class="w-16 h-16 rounded-lg shadow-lg bg-white/10 backdrop-blur-sm p-2"
+                                             onerror="this.style.display='none'"
+                                             loading="lazy">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-5 card-content">
+                                <h3 class="text-lg font-semibold mb-2">Namecheap</h3>
+                                <p class="text-apple-text-secondary text-sm mb-3" data-en="Domain provider with affordable prices and easy-to-remember names, simple operation." data-zh="价格实惠且易于记忆的域名供应商，操作界面简单。">Domain provider with affordable prices and easy-to-remember names, simple operation.</p>
+                                <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-blue-500/5 to-purple-500/5 border-l-4 border-blue-500 rounded-r-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    <span class="text-sm font-medium text-blue-500" data-en="For individuals or small companies who want to buy domains like xxx.com" data-zh="适合个人或小型公司想要购买xxx.com这样的域名">For individuals or small companies who want to buy domains like xxx.com</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Website Hosting (Hidden by default) -->
+            <div id="hosting" class="category-section hidden">
+                <h2 class="text-2xl font-semibold mb-6 text-apple-text">Website Hosting</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Cloudflare -->
+                    <div class="tool-card card bg-apple-light rounded-xl overflow-hidden shadow-md">
+                        <a href="https://www.cloudflare.com" target="_blank" class="block">
+                            <div class="card-placeholder blue">
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <img src="https://www.google.com/s2/favicons?sz=64&domain=cloudflare.com" 
+                                         alt="Cloudflare icon" 
+                                         class="w-16 h-16 rounded-lg shadow-lg bg-white/10 backdrop-blur-sm p-2"
+                                         onerror="this.style.display='none'"
+                                         loading="lazy">
+                                </div>
+                            </div>
+                            <div class="p-5 card-content">
+                                <h3 class="text-lg font-semibold mb-2">Cloudflare</h3>
+                                <p class="text-apple-text-secondary text-sm mb-3" data-en="Makes websites load faster and more secure, and can help hide your real server address." data-zh="让网站加载更更快更安全，并可以帮助隐藏你的真实服务器地址。">Makes websites load faster and more secure, and can help hide your real server address.</p>
+                                <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-blue-500/5 to-purple-500/5 border-l-4 border-blue-500 rounded-r-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    <span class="text-sm font-medium text-blue-500" data-en="For website owners worried about attacks or slow loading times" data-zh="适合那些担心遭受攻击或加载速度慢的网站所有者">For website owners worried about attacks or slow loading times</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <!-- Netlify -->
+                    <div class="tool-card card bg-apple-light rounded-xl overflow-hidden shadow-md">
+                        <a href="https://netlify.com" target="_blank" class="block">
+                            <div class="card-placeholder purple">
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <img src="https://www.google.com/s2/favicons?sz=64&domain=netlify.com" 
+                                         alt="Netlify icon" 
+                                         class="w-16 h-16 rounded-lg shadow-lg bg-white/10 backdrop-blur-sm p-2"
+                                         onerror="this.style.display='none'"
+                                         loading="lazy">
+                                </div>
+                            </div>
+                            <div class="p-5 card-content">
+                                <h3 class="text-lg font-semibold mb-2">Netlify</h3>
+                                <p class="text-apple-text-secondary text-sm mb-3" data-en="Free website hosting service that can automatically sync with Git repository updates." data-zh="免费的网站托管服务，可以自动同步Git仓库更新。">Free website hosting service that can automatically sync with Git repository updates.</p>
+                                <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-blue-500/5 to-purple-500/5 border-l-4 border-blue-500 rounded-r-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    <span class="text-sm font-medium text-blue-500" data-en="For those who use GitHub to store code and want automatic website updates" data-zh="适合那些使用GitHub存储代码并希望自动更新网站的初学者">For those who use GitHub to store code and want automatic website updates</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <!-- Bluehost -->
+                    <div class="tool-card card bg-apple-light rounded-xl overflow-hidden shadow-md">
+                        <a href="https://www.bluehost.com" target="_blank" class="block">
+                            <div class="card-placeholder green">
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <img src="https://www.google.com/s2/favicons?sz=64&domain=bluehost.com" 
+                                         alt="Bluehost icon" 
+                                         class="w-16 h-16 rounded-lg shadow-lg bg-white/10 backdrop-blur-sm p-2"
+                                         onerror="this.style.display='none'"
+                                         loading="lazy">
+                                </div>
+                            </div>
+                            <div class="p-5 card-content">
+                                <h3 class="text-lg font-semibold mb-2">Bluehost</h3>
+                                <p class="text-apple-text-secondary text-sm mb-3" data-en="A stable, well-established hosting provider with one-click WordPress installation." data-zh="稳定、历史悠久的主机提供商，支持一键安装WordPress。">A stable, well-established hosting provider with one-click WordPress installation.</p>
+                                <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-blue-500/5 to-purple-500/5 border-l-4 border-blue-500 rounded-r-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    <span class="text-sm font-medium text-blue-500" data-en="For beginners who want to create a WordPress website without hassle" data-zh="适合那些想要无忧创建WordPress网站的初学者">For beginners who want to create a WordPress website without hassle</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Website Tutorials (Hidden by default) -->
+            <div id="tutorials" class="category-section hidden">
+                <h2 class="text-2xl font-semibold mb-6 text-apple-text" data-en="Website Tutorials" data-zh="网站教程">Website Tutorials</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Wix Tutorials -->
+                    <div class="tool-card card bg-apple-light rounded-xl overflow-hidden shadow-md" data-website="https://support.wix.com">
+                        <div class="screenshot-placeholder h-48 flex items-center justify-center">
+                            <div class="card-placeholder purple">
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <img src="https://www.google.com/s2/favicons?sz=64&domain=wix.com" 
+                                         alt="Wix Tutorials icon" 
+                                         class="w-16 h-16 rounded-lg shadow-lg bg-white/10 backdrop-blur-sm p-2"
+                                         onerror="this.style.display='none'"
+                                         loading="lazy">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-5 card-content">
+                            <h3 class="text-lg font-semibold mb-2">Wix Tutorials</h3>
+                            <p class="text-apple-text-secondary text-sm mb-3" data-en="Step-by-step tutorials on how to create a website using Wix." data-zh="使用Wix创建网站的分步教程。">Step-by-step tutorials on how to create a website using Wix.</p>
+                            <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-blue-500/5 to-purple-500/5 border-l-4 border-blue-500 rounded-r-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                </svg>
+                                <span class="text-sm font-medium text-blue-500" data-en="For beginners who want to learn how to use Wix to build a website" data-zh="适合想要学习如何使用Wix构建网站的初学者">For beginners who want to learn how to use Wix to build a website</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reddit No-Code Community -->
+                    <div class="tool-card card bg-apple-light rounded-xl overflow-hidden shadow-md" data-website="https://www.reddit.com/r/nocode">
+                        <div class="screenshot-placeholder h-48 flex items-center justify-center">
+                            <div class="card-placeholder green">
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <img src="https://www.google.com/s2/favicons?sz=64&domain=reddit.com" 
+                                         alt="Reddit icon" 
+                                         class="w-16 h-16 rounded-lg shadow-lg bg-white/10 backdrop-blur-sm p-2"
+                                         onerror="this.style.display='none'"
+                                         loading="lazy">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-5 card-content">
+                            <h3 class="text-lg font-semibold mb-2">Reddit No-Code Community</h3>
+                            <p class="text-apple-text-secondary text-sm mb-3" data-en="A community where you can ask questions and share experiences about no-code website building." data-zh="一个可以询问问题和分享无代码网站构建经验的社区。">A community where you can ask questions and share experiences about no-code website building.</p>
+                            <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-blue-500/5 to-purple-500/5 border-l-4 border-blue-500 rounded-r-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                </svg>
+                                <span class="text-sm font-medium text-blue-500" data-en="For those who want to learn from others' experiences and get help" data-zh="适合想要从他人经验中学习并获得帮助的人">For those who want to learn from others' experiences and get help</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEO & Analytics (Hidden by default) -->
+            <div id="seo" class="category-section hidden">
+                <h2 class="text-2xl font-semibold mb-6 text-apple-text" data-en="SEO & Analytics" data-zh="搜索引擎优化与分析">SEO & Analytics</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Google Search Console -->
+                    <div class="tool-card card bg-apple-light rounded-xl overflow-hidden shadow-md">
+                        <a href="https://search.google.com/search-console" target="_blank" class="block">
+                            <div class="card-placeholder blue">
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <img src="https://www.google.com/s2/favicons?sz=64&domain=search.google.com" 
+                                         alt="Google Search Console icon" 
+                                         class="w-16 h-16 rounded-lg shadow-lg bg-white/10 backdrop-blur-sm p-2"
+                                         onerror="this.style.display='none'"
+                                         loading="lazy">
+                                </div>
+                            </div>
+                            <div class="p-5 card-content">
+                                <h3 class="text-lg font-semibold mb-2">Google Search Console</h3>
+                                <p class="text-apple-text-secondary text-sm mb-3" data-en="Let your website be indexed by Google." data-zh="让你的网站被谷歌搜索收录。">Let your website be indexed by Google.</p>
+                                <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-blue-500/5 to-purple-500/5 border-l-4 border-blue-500 rounded-r-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    <span class="text-sm font-medium text-blue-500" data-en="For website owners who want to improve search visibility" data-zh="适合想要提高搜索可见度的网站所有者">For website owners who want to improve search visibility</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Google Trends -->
+                    <div class="tool-card card bg-apple-light rounded-xl overflow-hidden shadow-md">
+                        <a href="https://trends.google.com" target="_blank" class="block">
+                            <div class="card-placeholder green">
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <img src="https://www.google.com/s2/favicons?sz=64&domain=trends.google.com" 
+                                         alt="Google Trends icon" 
+                                         class="w-16 h-16 rounded-lg shadow-lg bg-white/10 backdrop-blur-sm p-2"
+                                         onerror="this.style.display='none'"
+                                         loading="lazy">
+                                </div>
+                            </div>
+                            <div class="p-5 card-content">
+                                <h3 class="text-lg font-semibold mb-2">Google Trends</h3>
+                                <p class="text-apple-text-secondary text-sm mb-3" data-en="Understand what people are searching for and when they search for it." data-zh="了解人们在搜索什么以及他们什么时候搜索。">Understand what people are searching for and when they search for it.</p>
+                                <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-blue-500/5 to-purple-500/5 border-l-4 border-blue-500 rounded-r-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    <span class="text-sm font-medium text-blue-500" data-en="For content creators who want to understand hot topics" data-zh="适合想要了解热门话题的内容创作者">For content creators who want to understand hot topics</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Instant Domains Search -->
+                    <div class="tool-card card bg-apple-light rounded-xl overflow-hidden shadow-md">
+                        <a href="https://instantdomainsearch.com" target="_blank" class="block">
+                            <div class="card-placeholder blue">
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <img src="https://www.google.com/s2/favicons?sz=64&domain=instantdomainsearch.com" 
+                                         alt="Instant Domains Search icon" 
+                                         class="w-16 h-16 rounded-lg shadow-lg bg-white/10 backdrop-blur-sm p-2"
+                                         onerror="this.style.display='none'"
+                                         loading="lazy">
+                                </div>
+                            </div>
+                            <div class="p-5 card-content">
+                                <h3 class="text-lg font-semibold mb-2">Instant Domains Search</h3>
+                                <p class="text-apple-text-secondary text-sm mb-3" data-en="Check recently registered domains to discover new market opportunities." data-zh="查看最近新注册的域名，用来发现市场最新的机会">Check recently registered domains to discover new market opportunities.</p>
+                                <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-blue-500/5 to-purple-500/5 border-l-4 border-blue-500 rounded-r-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    <span class="text-sm font-medium text-blue-500" data-en="For discovering the latest market opportunities" data-zh="适合用来发现市场最新的机会">For discovering the latest market opportunities</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Query Domain -->
+                    <div class="tool-card card bg-apple-light rounded-xl overflow-hidden shadow-md">
+                        <a href="https://www.querydomain.com" target="_blank" class="block">
+                            <div class="card-placeholder purple">
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <img src="https://www.google.com/s2/favicons?sz=64&domain=querydomain.com" 
+                                         alt="Query Domain icon" 
+                                         class="w-16 h-16 rounded-lg shadow-lg bg-white/10 backdrop-blur-sm p-2"
+                                         onerror="this.style.display='none'"
+                                         loading="lazy">
+                                </div>
+                            </div>
+                            <div class="p-5 card-content">
+                                <h3 class="text-lg font-semibold mb-2">Query Domain</h3>
+                                <p class="text-apple-text-secondary text-sm mb-3" data-en="Check recently registered domains to discover new market opportunities." data-zh="查看最近新注册的域名，用来发现市场最新的机会">Check recently registered domains to discover new market opportunities.</p>
+                                <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-blue-500/5 to-purple-500/5 border-l-4 border-blue-500 rounded-r-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    <span class="text-sm font-medium text-blue-500" data-en="For discovering the latest AI market opportunities" data-zh="适合用来发现ai市场最新的机会">For discovering the latest AI market opportunities</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Discovery (Hidden by default) -->
+            <div id="discovery" class="category-section hidden">
+                <h2 class="text-2xl font-semibold mb-6 text-apple-text" data-en="Opportunity Discovery" data-zh="发现需求">Opportunity Discovery</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Keywords Everywhere -->
+                    <div class="tool-card card bg-apple-light rounded-xl overflow-hidden shadow-md">
+                        <a href="https://keywordseverywhere.com" target="_blank" class="block">
+                            <div class="card-placeholder purple">
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <img src="https://www.google.com/s2/favicons?sz=64&domain=keywordseverywhere.com" 
+                                         alt="Keywords Everywhere icon" 
+                                         class="w-16 h-16 rounded-lg shadow-lg bg-white/10 backdrop-blur-sm p-2"
+                                         onerror="this.style.display='none'"
+                                         loading="lazy">
+                                </div>
+                            </div>
+                            <div class="p-5 card-content">
+                                <h3 class="text-lg font-semibold mb-2">Keywords Everywhere</h3>
+                                <p class="text-apple-text-secondary text-sm mb-3" data-en="A Google Chrome extension that shows search volume data directly in Google search results, helping identify trending keywords." data-zh="谷歌插件，查看谷歌搜索结果的搜索量，帮助识别热门关键词。">A Google Chrome extension that shows search volume data directly in Google search results, helping identify trending keywords.</p>
+                                <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-blue-500/5 to-purple-500/5 border-l-4 border-blue-500 rounded-r-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    <span class="text-sm font-medium text-blue-500" data-en="For discovering the latest AI market opportunities and trending keywords" data-zh="适合用来发现ai市场最新的机会、热门关键词">For discovering the latest AI market opportunities and trending keywords</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- 谷歌关键词规划师 -->
+                    <div class="tool-card card bg-apple-light rounded-xl overflow-hidden shadow-md">
+                        <a href="https://ads.google.com/home/tools/keyword-planner/" target="_blank" class="block">
+                            <div class="card-placeholder purple">
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <img src="https://www.google.com/s2/favicons?sz=64&domain=ads.google.com" 
+                                         alt="谷歌关键词规划师 icon" 
+                                         class="w-16 h-16 rounded-lg shadow-lg bg-white/10 backdrop-blur-sm p-2"
+                                         onerror="this.style.display='none'"
+                                         loading="lazy">
+                                </div>
+                            </div>
+                            <div class="p-5 card-content">
+                                <h3 class="text-lg font-semibold mb-2">谷歌关键词规划师</h3>
+                                <p class="text-apple-text-secondary text-sm mb-3" data-en="A Google Chrome extension that shows search volume data directly in Google search results, helping identify trending keywords." data-zh="谷歌插件，查看谷歌搜索结果的搜索量，帮助识别热门关键词。">谷歌插件，查看谷歌搜索结果的搜索量，帮助识别热门关键词。</p>
+                                <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-blue-500/5 to-purple-500/5 border-l-4 border-blue-500 rounded-r-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    <span class="text-sm font-medium text-blue-500" data-en="For discovering the latest AI market opportunities and trending keywords" data-zh="适合用来发现ai市场最新的机会、热门关键词">适合用来发现ai市场最新的机会、热门关键词</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- 拓词宝 -->
+                    <div class="tool-card card bg-apple-light rounded-xl overflow-hidden shadow-md">
+                        <a href="https://www.tuocibao.com" target="_blank" class="block">
+                            <div class="card-placeholder purple">
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <img src="https://www.google.com/s2/favicons?sz=64&domain=tuocibao.com" 
+                                         alt="拓词宝 icon" 
+                                         class="w-16 h-16 rounded-lg shadow-lg bg-white/10 backdrop-blur-sm p-2"
+                                         onerror="this.style.display='none'"
+                                         loading="lazy">
+                                </div>
+                            </div>
+                            <div class="p-5 card-content">
+                                <h3 class="text-lg font-semibold mb-2">拓词宝</h3>
+                                <p class="text-apple-text-secondary text-sm mb-3" data-en="Professional keyword mining and analysis tool supporting long-tail keyword expansion, search intent analysis, and AI-powered insights." data-zh="专业的关键词挖掘和分析工具，支持长尾关键词扩展、搜索意图分析和AI智能分析。">Professional keyword mining and analysis tool supporting long-tail keyword expansion, search intent analysis, and AI-powered insights.</p>
+                                <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-blue-500/5 to-purple-500/5 border-l-4 border-blue-500 rounded-r-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    <span class="text-sm font-medium text-blue-500" data-en="For discovering the latest AI market opportunities and trending keywords" data-zh="适合用来发现ai市场最新的机会、热门关键词">For discovering the latest AI market opportunities and trending keywords</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Analytics (Hidden by default) -->
+            <div id="analytics" class="category-section hidden">
+                <h2 class="text-2xl font-semibold mb-6 text-apple-text" data-en="Data Analytics" data-zh="数据分析">Data Analytics</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Google Analytics -->
+                    <div class="tool-card card bg-apple-light rounded-xl overflow-hidden shadow-md">
+                        <a href="https://analytics.google.com" target="_blank" class="block">
+                            <div class="card-placeholder blue">
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <img src="https://www.google.com/s2/favicons?sz=64&domain=analytics.google.com" 
+                                         alt="Google Analytics icon" 
+                                         class="w-16 h-16 rounded-lg shadow-lg bg-white/10 backdrop-blur-sm p-2"
+                                         onerror="this.style.display='none'"
+                                         loading="lazy">
+                                </div>
+                            </div>
+                            <div class="p-5 card-content">
+                                <h3 class="text-lg font-semibold mb-2">Google Analytics</h3>
+                                <p class="text-apple-text-secondary text-sm mb-3" data-en="Comprehensive analytics tool for monitoring website and app performance, providing detailed insights into user behavior and traffic patterns." data-zh="分析网站、app数据，提供详细的用户行为和流量分析。">Comprehensive analytics tool for monitoring website and app performance, providing detailed insights into user behavior and traffic patterns.</p>
+                                <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-blue-500/5 to-purple-500/5 border-l-4 border-blue-500 rounded-r-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    <span class="text-sm font-medium text-blue-500" data-en="For website owners who need to monitor traffic and analyze data after launch" data-zh="适合网站上线后，需要监测网站流量和分析数据的站长">For website owners who need to monitor traffic and analyze data after launch</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="bg-apple-darker border-t border-apple-gray py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="md:flex md:items-center md:justify-between">
+                <div class="flex justify-center md:order-2 space-x-6">
+                    <a href="#" class="text-apple-text-secondary hover:text-apple-text">
+                        <span class="sr-only">Twitter</span>
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
+                        </svg>
+                    </a>
+                    <a href="#" class="text-apple-text-secondary hover:text-apple-text">
+                        <span class="sr-only">GitHub</span>
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                </div>
+                <div class="mt-8 md:mt-0 md:order-1">
+                    <p class="text-center text-base text-apple-text-secondary">&copy; 2023 CreateWeb. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Global variables
+        const navLinks = document.querySelectorAll('nav a');
+        const categoryContainers = document.querySelectorAll('.category-section');
+        const searchInput = document.getElementById('searchInput');
+        const toolCards = document.querySelectorAll('.tool-card');
+        const langButtons = document.querySelectorAll('.lang-selector');
+        
+        // Category navigation
+        // Show the first category by default
+        if (categoryContainers.length > 0) {
+            categoryContainers[0].classList.remove('hidden');
+        }
+        
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Remove active class from all links
+                navLinks.forEach(navLink => {
+                    navLink.classList.remove('active-category');
+                });
+                
+                // Add active class to clicked link
+                link.classList.add('active-category');
+                
+                // Hide all category sections
+                categoryContainers.forEach(section => {
+                    section.classList.add('hidden');
+                });
+                
+                // Show selected category section
+                const category = link.getAttribute('data-category');
+                const targetSection = document.getElementById(category);
+                if (targetSection) {
+                    targetSection.classList.remove('hidden');
+                }
+            });
+        });
+        
+        // Language switcher function
+        function switchLanguage(lang) {
+            // 更新按钮状态
+            langButtons.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-lang') === lang) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // 更新所有带有 data-en 和 data-zh 属性的元素
+            document.querySelectorAll('[data-' + lang + ']').forEach(element => {
+                const translation = element.getAttribute('data-' + lang);
+                if (element.tagName.toLowerCase() === 'input') {
+                    element.placeholder = translation;
+                } else {
+                    element.textContent = translation;
+                }
+            });
+        }
+        
+        // Language switcher event listeners
+        langButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const lang = button.getAttribute('data-lang');
+                switchLanguage(lang);
+            });
+        });
+        
+        // Auto-detect user language
+        const userLang = navigator.language || navigator.userLanguage;
+        if (userLang.startsWith('zh')) {
+            document.querySelector('.lang-selector[data-lang="zh"]').click();
+        } else {
+            document.querySelector('.lang-selector[data-lang="en"]').click();
+        }
+        
+        // Search functionality
+        function performSearch(searchTerm) {
+            searchTerm = searchTerm.toLowerCase().trim();
+            
+            toolCards.forEach(card => {
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const description = card.querySelector('p').textContent.toLowerCase();
+                const targetAudience = card.querySelector('.text-blue-500').textContent.toLowerCase();
+                
+                if (searchTerm === '') {
+                    card.style.display = ''; // Show all cards when search is empty
+                } else if (
+                    title.includes(searchTerm) ||
+                    description.includes(searchTerm) ||
+                    targetAudience.includes(searchTerm)
+                ) {
+                    card.style.display = ''; // Show matching cards
+                } else {
+                    card.style.display = 'none'; // Hide non-matching cards
+                }
+            });
+
+            // Show/hide sections based on whether they have visible cards
+            categoryContainers.forEach(section => {
+                const hasVisibleCards = Array.from(section.querySelectorAll('.tool-card'))
+                    .some(card => card.style.display !== 'none');
+                section.classList.toggle('hidden', !hasVisibleCards);
+            });
+        }
+
+        // Search event listeners
+        searchInput.addEventListener('input', (e) => {
+            performSearch(e.target.value);
+        });
+
+        searchInput.addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') {
+                performSearch(e.target.value);
+            }
+        });
+    </script>
+</body>
+</html>
